@@ -7,6 +7,11 @@ export default {
       handwriting: ['Caveat'],
       headline: ['Poppins'],
     },
+    extend: {
+      backgroundImage: {
+        'levi-img': "url('/src/assets/levi.jpg')",
+      }
+    }
   },
   plugins: [],
 };
