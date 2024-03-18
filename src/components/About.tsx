@@ -1,4 +1,21 @@
+function calculateAge(birthDate: Date): number {
+  const today = new Date();
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const monthDiff = today.getMonth() - birthDate.getMonth();
+
+  if (
+    monthDiff < 0 ||
+    (monthDiff === 0 && today.getDate() < birthDate.getDate())
+  ) {
+    age--;
+  }
+
+  return age;
+}
+
 export function About() {
+  const birthDate = new Date(1999, 4, 27);
+  const age = calculateAge(birthDate);
   return (
     <section className='container mx-auto my-4 max-w-5xl p-4'>
       <div className=' relative p-4 text-center'>
@@ -29,7 +46,7 @@ export function About() {
                   <td className='font-headline font-bold uppercase text-blue-900'>
                     Idade:
                   </td>
-                  <td>24</td>
+                  <td>{age}</td>
                 </tr>
                 <tr>
                   <td className='font-headline font-bold uppercase text-blue-900'>
@@ -48,9 +65,9 @@ export function About() {
                     Disponível:
                   </td>
                   <td>
-                    <span className="relative flex h-3 w-3">
-                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
-                      <span className="relative inline-flex h-3 w-3 rounded-full bg-green-500" />
+                    <span className='relative flex h-3 w-3'>
+                      <span className='absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75' />
+                      <span className='relative inline-flex h-3 w-3 rounded-full bg-green-500' />
                     </span>
                   </td>
                 </tr>
