@@ -1,17 +1,42 @@
 import emailjs from '@emailjs/browser';
 import { FormEvent, useRef, useState } from 'react';
 import { FaSpinner, FaWhatsapp } from 'react-icons/fa';
-import {
-  HiCheckCircle,
-  HiOutlineEnvelope,
-  HiOutlineMapPin,
-} from 'react-icons/hi2';
+import { HiCheckCircle, HiOutlineEnvelope } from 'react-icons/hi2';
 
 export function Contact() {
   const form = useRef<HTMLFormElement>(null);
+
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
+
+  const sendEmail = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!form.current) return;
+
+    setLoading(true);
+
+    emailjs
+      .sendForm(
+        'service_ygtewlo',
+        'template_rbj92ga',
+        form.current,
+        '-iqpVxzFFkiYOMWOZ'
+      )
+      .then(
+        () => {
+          setSuccess(true);
+          setLoading(false);
+          setError(false);
+        },
+        (error) => {
+          setError(true);
+          setLoading(false);
+          console.error(error);
+        }
+      );
+  };
 
   const contacts = [
     {
@@ -45,7 +70,7 @@ export function Contact() {
 
         <div className='flex flex-col gap-6 md:flex-row'>
           <div className='basis-2/3'>
-            <form ref={form}>
+            <form ref={form} onSubmit={sendEmail}>
               <div className='mb-4'>
                 <label
                   htmlFor='message'
@@ -98,9 +123,18 @@ export function Contact() {
                 <button
                   type='submit'
                   className='button flex items-center gap-2 text-blue-700'
+                  disabled={loading}
                 >
+                  {loading && <FaSpinner className='h-4 w-4 animate-spin' />}
+                  {success && <HiCheckCircle className='h-4 w-4' />}
                   Enviar mensagem
                 </button>
+
+                {error && (
+                  <p className='mt-2'>
+                    Ocorreu um erro ao enviar a mensagem. Tente novamente.
+                  </p>
+                )}
               </div>
             </form>
           </div>
